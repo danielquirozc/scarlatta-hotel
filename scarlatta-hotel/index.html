@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scarlatta – Reserva tu Experiencia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream:    #F5EDD8;
+      --parchment:#E8D9B8;
+      --gold:     #C9A84C;
+      --gold-light:#E4C97A;
+      --brown:    #5C3A1E;
+      --dark:     #1A0F05;
+      --red:      #8B1C1C;
+      --red-deep: #6B1414;
+      --sepia:    #9C7B50;
+      --text:     #3A2410;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Cormorant Garamond', serif;
+      background: var(--cream);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── TEXTURE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: .5;
+    }
+
+    /* ══════════════════════════════
+       NAVBAR
+    ══════════════════════════════ */
+    nav {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 60px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 42px; height: 42px;
+      border: 1.5px solid var(--gold);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold);
+      font-size: 18px;
+    }
+
+    .logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 38px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      font-weight: 400;
+      letter-spacing: 1.5px;
+      color: #fff;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color .25s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0; right: 0;
+      height: 1px;
+      background: var(--gold-light);
+      transform: scaleX(0);
+      transition: transform .3s;
+    }
+
+    .nav-links a:hover { color: var(--gold-light); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+
+    .btn-reservar {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--dark);
+      background: var(--gold);
+      border: none;
+      border-radius: 35px;
+      padding: 11px 26px;
+      cursor: pointer;
+      transition: background .25s, color .25s;
+    }
+
+    .btn-reservar:hover {
+      background: var(--gold-light);
+    }
+
+    /* ══════════════════════════════
+       HERO
+    ══════════════════════════════ */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 640px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1800&q=80') center/cover no-repeat;
+      filter: brightness(.48) sepia(.35) saturate(1.2);
+      transform: scale(1.04);
+      animation: zoomOut 14s ease forwards;
+    }
+
+    @keyframes zoomOut {
+      from { transform: scale(1.04); }
+      to   { transform: scale(1.0); }
+    }
+
+    /* vintage vignette */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 30%, rgba(10,4,0,.75) 100%);
+      pointer-events: none;
+    }
+
+    .hero-ornament {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 18px;
+      animation: fadeUp .9s .2s both;
+    }
+
+    .ornament-line {
+      width: 120px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .ornament-diamond {
+      width: 8px; height: 8px;
+      background: var(--gold);
+      transform: rotate(45deg);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 820px;
+      padding: 0 20px;
+    }
+
+    .hero-badge {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 15px;
+      letter-spacing: 3px;
+      color: var(--gold-light);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      animation: fadeUp .9s .3s both;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(36px, 5.5vw, 68px);
+      font-weight: 700;
+      line-height: 1.15;
+      color: #fff;
+      animation: fadeUp .9s .45s both;
+    }
+
+    .hero-title .highlight {
+      color: var(--gold-light);
+      font-style: italic;
+    }
+
+    .hero-subtitle {
+      margin-top: 20px;
+      font-size: 17px;
+      font-weight: 300;
+      letter-spacing: .5px;
+      color: rgba(255,255,255,.75);
+      line-height: 1.7;
+      animation: fadeUp .9s .6s both;
+    }
+
+    /* ── SEARCH BOX ── */
+    .search-box {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      background: rgba(245,237,216,.97);
+      border: 1.5px solid var(--gold);
+      border-radius: 3px;
+      border-radius: 35px;
+      padding: 6px 6px 6px 10px;
+      margin-top: 36px;
+      animation: fadeUp .9s .75s both;
+      box-shadow: 0 8px 40px rgba(0,0,0,.45);
+    }
+
+    .search-field {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 0 18px;
+      border-right: 1px solid var(--sepia);
+      cursor: pointer;
+    }
+
+    .search-field:last-of-type { border-right: none; }
+
+    .search-field svg {
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .search-field span {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px;
+      color: var(--brown);
+      white-space: nowrap;
+    }
+
+    .search-field .arrow { font-size: 10px; color: var(--sepia); }
+
+    .btn-disponibilidad {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--red);
+      color: #fff;
+      border: none;
+      padding: 13px 22px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px;
+      border-radius: 35px;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: background .25s;
+      white-space: nowrap;
+    }
+
+    .btn-disponibilidad:hover { background: var(--red-deep); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* scroll indicator */
+    .scroll-hint {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      opacity: .6;
+      animation: fadeUp 1s 1.2s both;
+    }
+
+    .scroll-hint span {
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold-light);
+    }
+
+    .scroll-arrow {
+      width: 20px; height: 20px;
+      border-right: 1.5px solid var(--gold-light);
+      border-bottom: 1.5px solid var(--gold-light);
+      transform: rotate(45deg);
+      animation: bounce 1.6s infinite;
+    }
+
+    @keyframes bounce {
+      0%,100% { transform: rotate(45deg) translateY(0); }
+      50%      { transform: rotate(45deg) translateY(5px); }
+    }
+
+    /* ══════════════════════════════
+       SECTION DIVIDER
+    ══════════════════════════════ */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      justify-content: center;
+      margin: 14px 0;
+    }
+
+    .divider-line {
+      width: 80px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold));
+    }
+
+    .divider-line.rev {
+      background: linear-gradient(90deg, var(--gold), transparent);
+    }
+
+    .divider svg { color: var(--gold); }
+
+    /* ══════════════════════════════
+       INTRO STRIP
+    ══════════════════════════════ */
+    .intro-strip {
+      background: var(--dark);
+      padding: 26px 60px;
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      flex-wrap: wrap;
+      border-top: 1px solid var(--gold);
+      border-bottom: 1px solid var(--gold);
+    }
+
+    .intro-stat {
+      text-align: center;
+    }
+
+    .intro-stat .num {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      color: var(--gold);
+    }
+
+    .intro-stat .label {
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.55);
+      margin-top: 2px;
+    }
+
+    /* ══════════════════════════════
+       SERVICES
+    ══════════════════════════════ */
+    .section {
+      padding: 90px 60px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-label {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 14px;
+      letter-spacing: 3px;
+      color: var(--sepia);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 3.5vw, 44px);
+      font-weight: 700;
+      color: var(--brown);
+      line-height: 1.2;
+    }
+
+    .section-title em { color: var(--gold); font-style: italic; }
+
+    .section-desc {
+      max-width: 520px;
+      margin: 16px auto 0;
+      font-size: 17px;
+      color: var(--sepia);
+      line-height: 1.8;
+      font-style: italic;
+    }
+
+    /* Service cards */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    .service-card {
+      background: #fff;
+      border: 1px solid var(--parchment);
+      padding: 38px 30px;
+      text-align: center;
+      transition: transform .3s, box-shadow .3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      transform: scaleX(0);
+      transition: transform .4s;
+    }
+
+    .service-card:hover::before { transform: scaleX(1); }
+    .service-card:hover { transform: translateY(-6px); box-shadow: 0 18px 50px rgba(90,50,10,.12); }
+
+    .service-icon {
+      width: 62px; height: 62px;
+      margin: 0 auto 20px;
+      border: 1.5px solid var(--gold);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px;
+    }
+
+    .service-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--brown);
+      margin-bottom: 12px;
+    }
+
+    .service-desc {
+      font-size: 15px;
+      color: var(--sepia);
+      line-height: 1.75;
+    }
+
+    /* ══════════════════════════════
+       GALLERY
+    ══════════════════════════════ */
+    .gallery-section {
+      background: var(--dark);
+      padding: 90px 0;
+    }
+
+    .gallery-section .section-header { padding: 0 60px; }
+    .gallery-section .section-title,
+    .gallery-section .section-label { color: var(--gold-light); }
+    .gallery-section .section-desc { color: rgba(255,255,255,.5); }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: 240px 240px;
+      gap: 6px;
+      margin-top: 40px;
+    }
+
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .gallery-item:first-child { grid-row: span 2; }
+
+    .gallery-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform .5s, filter .5s;
+      filter: sepia(.25) brightness(.85);
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.06);
+      filter: sepia(.1) brightness(1);
+    }
+
+    .gallery-item::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 2px solid transparent;
+      transition: border-color .3s;
+    }
+
+    .gallery-item:hover::after { border-color: var(--gold); }
+
+    /* ══════════════════════════════
+       ROOMS
+    ══════════════════════════════ */
+    .rooms-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    .room-card {
+      background: #fff;
+      border: 1px solid var(--parchment);
+      overflow: hidden;
+      transition: box-shadow .3s, transform .3s;
+    }
+
+    .room-card:hover { transform: translateY(-5px); box-shadow: 0 20px 60px rgba(90,50,10,.14); }
+
+    .room-img {
+      position: relative;
+      height: 210px;
+      overflow: hidden;
+    }
+
+    .room-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: sepia(.2);
+      transition: transform .5s;
+    }
+
+    .room-card:hover .room-img img { transform: scale(1.05); }
+
+    .room-tag {
+      position: absolute;
+      top: 14px; left: 14px;
+      background: var(--gold);
+      color: var(--dark);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 1px;
+    }
+
+    .room-info { padding: 24px 24px 28px; }
+
+    .room-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--brown);
+      margin-bottom: 8px;
+    }
+
+    .room-features {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .room-feat {
+      font-size: 13px;
+      color: var(--sepia);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .room-feat svg { color: var(--gold); }
+
+    .room-price {
+      display: flex;
+      align-items: baseline;
+      gap: 5px;
+      margin-bottom: 16px;
+    }
+
+    .price-from { font-size: 13px; color: var(--sepia); font-style: italic; }
+    .price-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      color: var(--brown);
+      font-weight: 700;
+    }
+    .price-night { font-size: 13px; color: var(--sepia); }
+
+    .btn-room {
+      width: 100%;
+      background: transparent;
+      border: 1.5px solid var(--gold);
+      color: var(--brown);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 11px;
+      cursor: pointer;
+      transition: background .25s, color .25s;
+    }
+
+    .btn-room:hover { background: var(--gold); color: var(--dark); }
+
+    /* ══════════════════════════════
+       TESTIMONIALS
+    ══════════════════════════════ */
+    .testimonials-section {
+      background: var(--parchment);
+      padding: 90px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .testimonials-section::before {
+      content: '\201C';
+      position: absolute;
+      top: -30px; left: 40px;
+      font-family: 'Playfair Display', serif;
+      font-size: 280px;
+      color: var(--gold);
+      opacity: .08;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+
+    .testimonial-card {
+      background: #fff;
+      padding: 32px 28px;
+      border-left: 3px solid var(--gold);
+      position: relative;
+    }
+
+    .stars {
+      display: flex;
+      gap: 3px;
+      margin-bottom: 14px;
+      color: var(--gold);
+      font-size: 14px;
+    }
+
+    .testimonial-text {
+      font-size: 15px;
+      font-style: italic;
+      line-height: 1.8;
+      color: var(--sepia);
+      margin-bottom: 18px;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .author-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--parchment);
+      border: 1.5px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      color: var(--brown);
+      font-weight: 700;
+    }
+
+    .author-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--brown);
+    }
+
+    .author-origin {
+      font-size: 13px;
+      color: var(--sepia);
+      font-style: italic;
+    }
+
+    /* ══════════════════════════════
+       CONTACT / BOOKING CTA
+    ══════════════════════════════ */
+    .cta-section {
+      position: relative;
+      height: 460px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .cta-bg {
+      position: absolute;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1800&q=80') center/cover no-repeat;
+      filter: brightness(.35) sepia(.4);
+    }
+
+    .cta-content {
+      position: relative;
+      z-index: 2;
+      max-width: 640px;
+      padding: 0 24px;
+    }
+
+    .cta-label {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 14px;
+      letter-spacing: 3px;
+      color: var(--gold-light);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .cta-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 4vw, 46px);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.25;
+      margin-bottom: 20px;
+    }
+
+    .cta-title em { color: var(--gold-light); font-style: italic; }
+
+    .cta-text {
+      font-size: 16px;
+      color: rgba(255,255,255,.65);
+      line-height: 1.75;
+      font-style: italic;
+      margin-bottom: 32px;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: var(--dark);
+      border: none;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 14px 34px;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: background .25s;
+    }
+
+    .btn-primary:hover { background: var(--gold-light); }
+
+    .btn-outline {
+      background: transparent;
+      color: #fff;
+      border: 1.5px solid rgba(255,255,255,.5);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 14px 34px;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: border-color .25s, color .25s;
+    }
+
+    .btn-outline:hover { border-color: var(--gold-light); color: var(--gold-light); }
+
+    /* ══════════════════════════════
+       CONTACT SECTION
+    ══════════════════════════════ */
+    .contact-section {
+      padding: 90px 60px;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 70px;
+      align-items: start;
+    }
+
+    .contact-left .section-title { text-align: left; }
+    .contact-left .section-label { text-align: left; }
+
+    .contact-info {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .contact-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .contact-icon {
+      width: 42px; height: 42px;
+      border: 1px solid var(--gold);
+      border-radius: 35px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold);
+      flex-shrink: 0;
+      font-size: 17px;
+    }
+
+    .contact-label {
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--sepia);
+      margin-bottom: 3px;
+    }
+
+    .contact-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      color: var(--brown);
+    }
+
+    /* Form */
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--sepia);
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      background: #fff;
+      border: 1px solid var(--parchment);
+      border-radius: 2px;
+      padding: 12px 14px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px;
+      color: var(--text);
+      outline: none;
+      transition: border-color .25s;
+      resize: none;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus { border-color: var(--gold); }
+
+    .form-group textarea { height: 110px; }
+
+    .btn-submit {
+      align-self: flex-start;
+      background: var(--red);
+      color: #fff;
+      border: none;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 14px 36px;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: background .25s;
+    }
+
+    .btn-submit:hover { background: var(--red-deep); }
+
+    /* ══════════════════════════════
+       FOOTER
+    ══════════════════════════════ */
+    footer {
+      background: var(--dark);
+      border-top: 1px solid rgba(201,168,76,.25);
+    }
+
+    .footer-main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 60px 40px;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+    }
+
+    .footer-brand .logo-text { font-size: 24px; margin-bottom: 14px; display: block; }
+
+    .footer-tagline {
+      font-size: 14px;
+      color: rgba(255,255,255,.45);
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .social-btn {
+      width: 36px; height: 36px;
+      border: 1px solid rgba(201,168,76,.35);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold);
+      font-size: 14px;
+      cursor: pointer;
+      transition: border-color .25s, background .25s;
+      text-decoration: none;
+    }
+
+    .social-btn:hover { background: rgba(201,168,76,.12); border-color: var(--gold); }
+
+    .footer-col h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      color: var(--gold-light);
+      letter-spacing: 1px;
+      margin-bottom: 18px;
+      text-transform: uppercase;
+    }
+
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+
+    .footer-col ul a {
+      font-size: 14px;
+      color: rgba(255,255,255,.45);
+      text-decoration: none;
+      transition: color .25s;
+    }
+
+    .footer-col ul a:hover { color: var(--gold-light); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.07);
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 18px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-bottom p {
+      font-size: 13px;
+      color: rgba(255,255,255,.28);
+    }
+
+    .footer-bottom p span { color: var(--gold); }
+
+    /* ── Scroll reveal ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .7s, transform .7s;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ══ NAVBAR ══ -->
+  <nav>
+    <a class="logo" href="#">
+      <div class="logo-icon">
+        <!-- <img src="isotipo.png" class="logo" alt=""> -->
+      </div>
+      <span class="logo-text">Scarlatta</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#">Inicio</a></li>
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#galeria">Galería</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+    <button class="btn-reservar">Reservar Ahora</button>
+  </nav>
+
+  <!-- ══ HERO ══ -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+
+    <div class="hero-ornament">
+      <div class="ornament-line"></div>
+      <div class="ornament-diamond"></div>
+      <div class="ornament-line"></div>
+    </div>
+
+    <div class="hero-content">
+      <p class="hero-badge"></p>
+      <h1 class="hero-title">
+        Asegura las <span class="highlight">Vacaciones</span><br>
+        de tus Sueños<br>con una <span class="highlight">Reservación</span>
+      </h1>
+      <p class="hero-subtitle">
+        Vive una experiencia exclusiva donde el lujo, la elegancia y el confort<br>
+        se unen para crear momentos verdaderamente inolvidables.
+      </p>
+    </div>
+
+    <div class="search-box">
+      <div class="search-field">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        <span>Días</span>
+        <span class="arrow">⌃⌄</span>
+      </div>
+      <div class="search-field">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        <span>Habitación</span>
+        <span class="arrow">⌃⌄</span>
+      </div>
+      <div class="search-field">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        <span>Personas</span>
+        <span class="arrow">⌃⌄</span>
+      </div>
+      <button class="btn-disponibilidad">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        Disponibilidad
+      </button>
+    </div>
+
+    <div class="scroll-hint">
+      <span>Descubrir</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- ══ STATS ══ -->
+  <div class="intro-strip">
+    <div class="intro-stat">
+      <div class="label">Habitaciones de Lujo</div>
+    </div>
+    <div class="intro-stat">
+      <div class="label">Servicios de Lujo</div>
+    </div>
+    <div class="intro-stat">
+      <div class="label">Personal Amable</div>
+    </div>
+    <div class="intro-stat">
+      <div class="label">Servicio Concierge</div>
+    </div>
+  </div>
+
+  <!-- ══ SERVICES ══ -->
+  <section id="servicios">
+    <div class="section reveal">
+      <div class="section-header">
+        <p class="section-label">Nuestros Servicios</p>
+        <h2 class="section-title">Una Experiencia de <em>Lujo Total</em></h2>
+        <div class="divider">
+          <div class="divider-line"></div>
+          <svg width="14" height="14" viewBox="0 0 14 14"><polygon points="7,0 14,7 7,14 0,7" fill="currentColor"/></svg>
+          <div class="divider-line rev"></div>
+        </div>
+        <p class="section-desc">Cada detalle ha sido cuidadosamente pensado para brindarle el confort más refinado durante su estadía.</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">🍽️</div>
+          <h3 class="service-name">Gastronomía Gourmet</h3>
+          <p class="service-desc">Menús de autor inspirados en tradiciones culinarias de Europa y el Caribe, maridados con vinos de selección.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🧖</div>
+          <h3 class="service-name">Spa & Bienestar</h3>
+          <p class="service-desc">Rituales ancestrales de relajación con aromaterapia, baños termales y masajes terapéuticos personalizados.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🏊</div>
+          <h3 class="service-name">Piscinas Exclusivas</h3>
+          <p class="service-desc">Tres piscinas infinitas con vista al horizonte, rodeadas de jardines tropicales y cabañas privadas.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🎭</div>
+          <h3 class="service-name">Entretenimiento</h3>
+          <p class="service-desc">Espectáculos nocturnos, música en vivo y veladas culturales que enriquecen cada noche de su estancia.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">⛵</div>
+          <h3 class="service-name">Excursiones</h3>
+          <p class="service-desc">Paseos en velero, tours históricos y aventuras en la naturaleza organizados por nuestro equipo concierge.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🥂</div>
+          <h3 class="service-name">Eventos & Bodas</h3>
+          <p class="service-desc">Salones de ensueño y jardines florales para ceremonias nupciales y celebraciones de gran distinción.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ GALLERY ══ -->
+  <section id="galeria" class="gallery-section">
+    <div class="section-header reveal">
+      <p class="section-label">Galería</p>
+      <h2 class="section-title">Un Refugio de <em>Belleza Atemporal</em></h2>
+      <div class="divider">
+        <div class="divider-line"></div>
+        <svg width="14" height="14" viewBox="0 0 14 14"><polygon points="7,0 14,7 7,14 0,7" fill="#C9A84C"/></svg>
+        <div class="divider-line rev"></div>
+      </div>
+    </div>
+    <div class="gallery-grid reveal">
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800&q=80" alt="Hotel pool view" loading="lazy"/>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&q=80" alt="Luxury suite" loading="lazy"/>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?w=600&q=80" alt="Hotel dining" loading="lazy"/>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?w=600&q=80" alt="Spa" loading="lazy"/>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=600&q=80" alt="Garden" loading="lazy"/>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ ROOMS ══ -->
+  <section>
+    <div class="section reveal">
+      <div class="section-header">
+        <p class="section-label">Habitaciones</p>
+        <h2 class="section-title">Elige tu <em>Santuario Privado</em></h2>
+        <div class="divider">
+          <div class="divider-line"></div>
+          <svg width="14" height="14" viewBox="0 0 14 14"><polygon points="7,0 14,7 7,14 0,7" fill="#C9A84C"/></svg>
+          <div class="divider-line rev"></div>
+        </div>
+        <p class="section-desc">Habitaciones diseñadas para el reposo más sublime, con mobiliario de época y amenidades de primera clase.</p>
+      </div>
+      <div class="rooms-grid">
+        <div class="room-card">
+          <div class="room-img">
+            <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=600&q=80" alt="Junior Suite" loading="lazy"/>
+            <span class="room-tag">Disponible</span>
+          </div>
+          <div class="room-info">
+            <h3 class="room-name">Junior Suite</h3>
+            <div class="room-features">
+              <span class="room-feat">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l2-2m0 0l7-7 7 7"/></svg>
+                45 m²
+              </span>
+              <span class="room-feat">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                2 personas
+              </span>
+            </div>
+            <div class="room-price">
+              <span class="price-from">Desde</span>
+              <span class="price-num">$180</span>
+              <span class="price-night">/ noche</span>
+            </div>
+            <button class="btn-room">Reservar Ahora</button>
+          </div>
+        </div>
+        <div class="room-card">
+          <div class="room-img">
+            <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&q=80" alt="Master Suite" loading="lazy"/>
+            <span class="room-tag">Popular</span>
+          </div>
+          <div class="room-info">
+            <h3 class="room-name">Master Suite</h3>
+            <div class="room-features">
+              <span class="room-feat">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l2-2m0 0l7-7 7 7"/></svg>
+                72 m²
+              </span>
+              <span class="room-feat">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                2–3 personas
+              </span>
+            </div>
+            <div class="room-price">
+              <span class="price-from">Desde</span>
+              <span class="price-num">$310</span>
+              <span class="price-night">/ noche</span>
+            </div>
+            <button class="btn-room">Reservar Ahora</button>
+          </div>
+        </div>
+        <div class="room-card">
+          <div class="room-img">
+            <img src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=600&q=80" alt="Villa Presidencial" loading="lazy"/>
+            <span class="room-tag">Exclusiva</span>
+          </div>
+          <div class="room-info">
+            <h3 class="room-name">Villa Presidencial</h3>
+            <div class="room-features">
+              <span class="room-feat">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l2-2m0 0l7-7 7 7"/></svg>
+                180 m²
+              </span>
+              <span class="room-feat">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                hasta 6
+              </span>
+            </div>
+            <div class="room-price">
+              <span class="price-from">Desde</span>
+              <span class="price-num">$750</span>
+              <span class="price-night">/ noche</span>
+            </div>
+            <button class="btn-room">Reservar Ahora</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══ CTA ══ -->
+  <section class="cta-section">
+    <div class="cta-bg"></div>
+    <div class="cta-content reveal">
+      <p class="cta-label">— Inauguración —</p>
+      <h2 class="cta-title">Participa en nuestra <em>Inauguración</em></h2>
+      <p class="cta-text">Reserva tu habitación y participa en nuestra inauguración.</p>
+      <div class="cta-buttons">
+        <button class="btn-primary">Participar</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CONTACT ══ -->
+  <section id="contacto">
+    <div class="contact-section reveal">
+      <div class="contact-left">
+        <p class="section-label">Contáctenos</p>
+        <h2 class="section-title">Estamos Aquí para <em>Servirle</em></h2>
+        <div class="divider" style="justify-content:flex-start; margin-top:14px;">
+          <div class="divider-line" style="width:50px;"></div>
+          <svg width="10" height="10" viewBox="0 0 14 14" style="color:var(--gold)"><polygon points="7,0 14,7 7,14 0,7" fill="currentColor"/></svg>
+        </div>
+        <div class="contact-info">
+          <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div>
+              <div class="contact-label">Dirección</div>
+              <div class="contact-value">Constanza R.D</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📞</div>
+            <div>
+              <div class="contact-label">Teléfono</div>
+              <div class="contact-value">+1 (809) 555 – 0192</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">✉️</div>
+            <div>
+              <div class="contact-label">Correo</div>
+              <div class="contact-value">reservas@scarlatta.com</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">🕐</div>
+            <div>
+              <div class="contact-label">Check-in / Check-out</div>
+              <div class="contact-value">3:00 PM — 12:00 PM</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nombre</label>
+            <input type="text" placeholder="Su nombre" />
+          </div>
+          <div class="form-group">
+            <label>Apellido</label>
+            <input type="text" placeholder="Su apellido" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Correo Electrónico</label>
+          <input type="email" placeholder="correo@ejemplo.com" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Llegada</label>
+            <input type="date" />
+          </div>
+          <div class="form-group">
+            <label>Salida</label>
+            <input type="date" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Tipo de Habitación</label>
+          <select>
+            <option>Junior Suite</option>
+            <option>Master Suite</option>
+            <option>Villa Presidencial</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Mensaje o Solicitudes Especiales</label>
+          <textarea placeholder="Indíquenos cualquier preferencia especial..."></textarea>
+        </div>
+        <button class="btn-submit">Enviar Consulta</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FOOTER ══ -->
+  <footer>
+    <div class="footer-main">
+      <div class="footer-brand">
+        <span class="logo-text" style="color:var(--gold-light); font-family:'Playfair Display',serif; display:block; margin-bottom:12px;">Scarlatta</span>
+        <p class="footer-tagline">Ofrecemos una experiencia hotelera donde la tradición, el lujo y la elegancia atemporal se fusionan en cada detalle.</p>
+        <div class="footer-social">
+          <a class="social-btn" href="#">f</a>
+          <a class="social-btn" href="#">in</a>
+          <a class="social-btn" href="#">✦</a>
+          <a class="social-btn" href="#">▶</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Hotel</h4>
+        <ul>
+          <li><a href="#">Nuestra Historia</a></li>
+          <li><a href="#">Habitaciones</a></li>
+          <li><a href="#">Galería</a></li>
+          <li><a href="#">Premios</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Servicios</h4>
+        <ul>
+          <li><a href="#">Spa & Wellness</a></li>
+          <li><a href="#">Gastronomía</a></li>
+          <li><a href="#">Eventos</a></li>
+          <li><a href="#">Bodas</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Información</h4>
+        <ul>
+          <li><a href="#">Política de reservas</a></li>
+          <li><a href="#">Cancelaciones</a></li>
+          <li><a href="#">Privacidad</a></li>
+          <li><a href="#">Contacto</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 <span>Scarlatta</span> — Todos los derechos reservados.</p>
+      <p>Diseñado con <span>✦</span> elegancia atemporal</p>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
